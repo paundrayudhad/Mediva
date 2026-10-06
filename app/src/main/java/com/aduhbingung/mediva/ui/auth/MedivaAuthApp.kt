@@ -193,7 +193,7 @@ fun MedivaAuthApp(modifier: Modifier = Modifier) {
                     }
 
                     is AuthRoute.Home -> {
-                        HomePlaceholderScreen(
+                        com.aduhbingung.mediva.ui.user.UserNavHost(
                             onLogoutClick = {
                                 resetTo(AuthRoute.SignIn)
                             }
@@ -201,82 +201,6 @@ fun MedivaAuthApp(modifier: Modifier = Modifier) {
                     }
                 }
             }
-        }
-    }
-}
-
-/**
- * Placeholder home screen reached after successful authentication & location permission.
- */
-@Composable
-fun HomePlaceholderScreen(
-    onLogoutClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MedivaSurface)
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "🚑 Mediva Emergency",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = MedivaTextPrimary
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = "Selamat datang! Akun Anda telah terautentikasi dan izin lokasi telah disetujui.",
-            fontSize = 13.sp,
-            lineHeight = 18.sp,
-            color = MedivaTextSecondary,
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        // Example emergency button using MedivaPrimary (#4A7FBF) for non-auth features
-        Button(
-            onClick = { /* Emergency CTA */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MedivaPrimary, // #4A7FBF per spec for non-auth buttons
-                contentColor = Color.White
-            )
-        ) {
-            Text(
-                text = "PANGGIL AMBULANS",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-        Spacer(modifier = Modifier.height(14.dp))
-
-        Button(
-            onClick = onLogoutClick,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFEF4444),
-                contentColor = Color.White
-            )
-        ) {
-            Text(
-                text = "Keluar Akun",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold
-            )
         }
     }
 }
