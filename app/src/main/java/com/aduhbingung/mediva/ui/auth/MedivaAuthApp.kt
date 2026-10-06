@@ -8,26 +8,18 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,7 +44,6 @@ import com.aduhbingung.mediva.ui.auth.screens.PasswordSuccessScreen
 import com.aduhbingung.mediva.ui.auth.screens.RegisterScreen
 import com.aduhbingung.mediva.ui.auth.screens.ResetPasswordScreen
 import com.aduhbingung.mediva.ui.auth.screens.VerifyOtpScreen
-import com.aduhbingung.mediva.ui.theme.MedivaAuthPrimary
 import com.aduhbingung.mediva.ui.theme.MedivaPrimary
 import com.aduhbingung.mediva.ui.theme.MedivaSurface
 import com.aduhbingung.mediva.ui.theme.MedivaTextPrimary
@@ -89,14 +80,7 @@ fun MedivaAuthApp(modifier: Modifier = Modifier) {
     }
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
-        bottomBar = {
-            // Demo screen switcher banner for testing & presentation
-            DemoQuickScreenBar(
-                currentRoute = currentRoute,
-                onSelectRoute = { route -> resetTo(route) }
-            )
-        }
+        modifier = modifier.fillMaxSize()
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -293,72 +277,6 @@ fun HomePlaceholderScreen(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold
             )
-        }
-    }
-}
-
-/**
- * Floating bar allowing reviewer to quickly jump to any of the 7 screens.
- */
-@Composable
-private fun DemoQuickScreenBar(
-    currentRoute: AuthRoute,
-    onSelectRoute: (AuthRoute) -> Unit
-) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = Color(0xFFF1F5F9),
-        shadowElevation = 4.dp
-    ) {
-        Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp)) {
-            Text(
-                text = "Pratinjau Layar (Demo Switcher):",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold,
-                color = MedivaTextSecondary,
-                modifier = Modifier.padding(start = 4.dp, bottom = 4.dp)
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
-            ) {
-                val screens = listOf(
-                    "1. Sign In" to AuthRoute.SignIn,
-                    "2. Sign Up" to AuthRoute.SignUp,
-                    "3. OTP (Daftar)" to AuthRoute.VerifyOtp(OtpSource.SIGN_UP),
-                    "4. Izin Lokasi" to AuthRoute.LocationPermission,
-                    "5. Lupa Sandi" to AuthRoute.ForgotPassword,
-                    "6. Atur Sandi" to AuthRoute.ResetPassword,
-                    "7. Sukses" to AuthRoute.PasswordSuccess,
-                    "Home" to AuthRoute.Home
-                )
-
-                screens.forEach { (label, route) ->
-                    val isSelected = when (currentRoute) {
-                        is AuthRoute.SignIn -> route is AuthRoute.SignIn
-                        is AuthRoute.SignUp -> route is AuthRoute.SignUp
-                        is AuthRoute.VerifyOtp -> route is AuthRoute.VerifyOtp
-                        is AuthRoute.LocationPermission -> route is AuthRoute.LocationPermission
-                        is AuthRoute.ForgotPassword -> route is AuthRoute.ForgotPassword
-                        is AuthRoute.ResetPassword -> route is AuthRoute.ResetPassword
-                        is AuthRoute.PasswordSuccess -> route is AuthRoute.PasswordSuccess
-                        is AuthRoute.Home -> route is AuthRoute.Home
-                    }
-
-                    FilterChip(
-                        selected = isSelected,
-                        onClick = { onSelectRoute(route) },
-                        label = { Text(text = label, fontSize = 11.sp) },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MedivaAuthPrimary,
-                            selectedLabelColor = Color.White
-                        )
-                    )
-                }
-            }
         }
     }
 }
